@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tester Homepage</title>
+</head>
+<body onload="getDefect()">
+    <h1>Welcome Witches & Wizards</h1>
+    <table border="4" id="table">
+        <caption>Defense Against The Dark Arts</caption>
+            <thead id="thead"></thead>
+            <tr>
+                <th>Defect Name</th>
+                <th>Defect Id</th>
+                <th>Update Defect</th>
+            </tr>
+                <tbody id="tbody"></tbody>
+                    <tr>
+                    </tr>
+    </tr>
+    </table> 
+        <table id="table2"></table>
+                <thead id="thead2"></thead>
+                <tbody id="tbody2"></tbody>
+</body>
+<script>
+    
+    const table = document.getElementById("table");
+    table.style.background = "#EEFF98";
+
+    const thead = document.getElementById("thead");
+    const tbody = document.getElementById("tbody");
+    // const tablehead = document.getElementById("thead2");
+    // const tablebody = document.getElementById("tbody2");
+    const select = document.getElementById("choose");
+
+
+//Grabbing Defect name attempt who knows
+        async function getDefect(){
+            
+            let username = localStorage.getItem("username");
+            console.log(username);
+            let httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/19/defects")
+            console.log(httpResponse);
+            let responseBody = await httpResponse.json();
+
+            if(httpResponse.status === 200){
+        //row for defect name.... GET THIS TO PRINT TO DEFECT NAME COLUMN PLEASE!!!
+        tbody.innerHTML = " ";
+        thead.innerHTML = " ";
+            let head = document.createElement("th")
+                // head.innerHTML = 
+                // `
+                // <th>Defect Name</th>`
+                
+                
+
+                //  thead.appendChild(head);
+                 
+                 
+                 for(let hogwarts of responseBody){
+                    if(username === hogwarts.assignedTo && hogwarts.status === "Pending" || hogwarts.status === "Accepted"){
+                    console.log(hogwarts)
+                    console.log(hogwarts.desc)
+                    console.log(hogwarts.defectId)
+                    let tblrow = document.createElement("tr")
+                    tblrow.innerHTML = 
+                    `
+                    <td>${hogwarts.desc}</td>
+                    <td>${hogwarts.defectId}</td>
+                    <td>${hogwarts.status}</td>
+                    <td><select id="${hogwarts.defectId}">
+                <option value="pending">--pending--</option>
+                <option value="Accepted">Accepted</option>
+                <option value="Declined">Declined</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Fixed">Fixed</option>
+                <option value="Shelved">Shelved</option> </td>
+                <td><button id= 'button${hogwarts.defectId}' onclick="submitDefect(${hogwarts.defectId})">Submitus Finito</button> </td>
+                `
+
+                    tbody.appendChild(tblrow)
+                    }
+                 } //This worked (clean up amount of defects in AM)
+
+            } else {
+                alert("You messed up bro")
+            }
+
+        }
+
+        async function submitDefect(id){
+           const submit = document.getElementById(id) 
+           let strUser = submit.options[submit.selectedIndex].value;
+           console.log(strUser);
+            let submitDefectInfo = {
+                status: strUser
+                
+            }
+
+            let submitDefectJSON = JSON.stringify(submitDefectInfo)
+
+            let config = {
+                method: "PATCH", 
+                headers: {'Content-Type': "application/json"},
+                body: submitDefectJSON
+        }
+
+            let httpResponse = await fetch(`https://bugcatcher.coe.revaturelabs.com/19/defects/${id}`, config);
+            console.log(httpResponse);
+
+            if(httpResponse.status === 204){
+                
+                alert("Work Your Magic")
+            } else {
+                
+                alert("You left something out");
+            }
+            getDefect();
+
+    }
+
+</script>
+</html>

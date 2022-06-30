@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manager Homepage</title>
+</head>
+<body>
+    <h1 id="hwic">Welcome Albus Dumbledore (HWIC)!!!</h1>
+    <table>
+        <caption>Managerius Defectus Creata </caption>
+            <tr>                            
+                <th>Create Defects</th>
+                <th>Chose Your Wizard</th>
+            </tr>
+            <tr> 
+                <td><input type="text" id="dementor" placeholder="Create Defect"></td>
+                <td><input type = "text" id="workers" placeholder="Assign Employee">
+                <td><button onclick="cDefect()">Submitus Defectus</button></td>
+            </td>
+            </tr>
+</table>
+<script>
+
+        const hwic =document.getElementById("hwic");
+        hwic.style.color = "blue";
+
+        // Let's create our Create Defect Function
+        async function cDefect(){
+            let cDefectInfo = {
+                desc: document.getElementById("dementor").value,
+                assignedTo: document.getElementById("workers").value,
+                "defectId": 0,
+                "dateReported": 0,
+                "status": "Pending",
+                "stepsToReproduce": "string",
+                "severity": "Low",
+                "priority": "Low"
+
+            }
+                
+            
+            // create defect input info should be set
+            let cDefectJSON = JSON.stringify(cDefectInfo)
+
+                // Set up http requests configurations
+            let config = {
+                method: "POST", //Not completely sure the difference between patch, post, get, etc...
+                headers: {'Content-Type': "application/json"},
+                body: cDefectJSON
+            }
+
+            let httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/19/defects", config);
+           
+            if(httpResponse.status === 201){
+                let responseBody = await httpResponse.json();
+                alert("Congratulations! Updatus Creatus!")
+                } else{
+                    let responseBody = await httpRepsonse.JSON();
+                    alert(response.detail);
+                }
+            }
+</script>
+</body>
+</html>

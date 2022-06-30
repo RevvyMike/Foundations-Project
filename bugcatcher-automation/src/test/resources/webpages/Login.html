@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1 id="Hog">Welcome to Hogwarts Tech Ministries</h1>
+    <h3>Where your Codecraft and Wizardry await thee</h3>
+    <h5>Please login below.</h5>
+    <input id="username" type="text" placeholder="username"> <br>
+    <input id="password" type="password" placeholder="password"> <br><br>
+    <button onclick="login()">Logindium Entrada</button> 
+</body>
+<script>
+     async function login(){
+
+        // to let my api validate login information I need to attach the username and password to the http request
+        let loginInfo = {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+        }
+
+        // now that I have the login information I need to convert it into a JSON
+        let loginJSON = JSON.stringify(loginInfo);
+
+        // now I can set up my HTTP request configurations
+        let config = {
+            method:"PATCH", // method is a reference to the kind of request you are making (the verb): GET is the default
+            headers:{'Content-Type':"application/json"}, // some APIs will return an error message without this value included
+            body: loginJSON
+        }
+
+        let httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/19/login", config); // make sure to enter the url assigned to you
+
+        if(httpResponse.status === 200){ // 200 basically means request made successfully
+            let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
+
+            if(responseBody.role === "Tester"){
+                localStorage.setItem("username", username.value);
+                window.location.href = "Tester.html"
+            } else {
+                window.location.href = "Manager.html";
+            }
+        } else {
+            let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
+            alert(responseBody.detail);
+        }
+    }
+</script>
+</html>
+
