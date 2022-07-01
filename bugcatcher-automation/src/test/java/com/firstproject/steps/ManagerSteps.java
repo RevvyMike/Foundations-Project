@@ -1,5 +1,7 @@
 package com.firstproject.steps;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import com.firstproject.runner.TestRunner;
 
 import io.cucumber.java.en.Given;
@@ -12,7 +14,7 @@ public class ManagerSteps {
     public void the_manager_is_on_their_homepage() {
         
             // This grabs Manager.HTML from local file.
-        TestRunner.driver.get("File://C:/Users/Mike/Desktop/Revature Training/Week4/Automation-Project/bugcatcher-automation/src/test/resources/webpages/Manager.html");
+        TestRunner.driver.get("File://C:/Users/Mike/Desktop/Revature Training/Week4/Automation-Project/Foundations-Project/bugcatcher-automation/src/test/resources/webpages/Manager.html");
     
     }
 
@@ -29,11 +31,18 @@ public class ManagerSteps {
         TestRunner.manager.enterTester("Tester");
     }
 
-    @Then("The manager should click submit defects button when finished.")
-    public void the_manager_should_click_submit_defects_button_when_finished() {
+    @When("The manager clicks the submit defects button when finished.")
+    public void the_manager_clicks_the_submit_defects_button_when_finished() {
         
         TestRunner.manager.clickButton();
         
+    }
+
+    @Then("The manager should receive alert to confirm defect.")
+    public void the_manager_should_receive_alert_to_confirm_defect() {
+
+        TestRunner.wait.until(ExpectedConditions.alertIsPresent());
+        TestRunner.driver.switchTo().alert().accept();
     }
 
 

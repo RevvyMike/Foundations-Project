@@ -68,14 +68,14 @@
                     <td>${hogwarts.desc}</td>
                     <td>${hogwarts.defectId}</td>
                     <td>${hogwarts.status}</td>
-                    <td><select id="${hogwarts.defectId}">
-                <option value="pending">--pending--</option>
-                <option value="Accepted">Accepted</option>
-                <option value="Declined">Declined</option>
-                <option value="Rejected">Rejected</option>
-                <option value="Fixed">Fixed</option>
-                <option value="Shelved">Shelved</option> </td>
-                <td><button id= 'button${hogwarts.defectId}' onclick="submitDefect(${hogwarts.defectId})">Submitus Finito</button> </td>
+                    <td><select class="pending" id="${hogwarts.defectId}">
+                <option id="pending" value="pending">--pending--</option>
+                <option id= "accept" value="Accepted">Accepted</option>
+                <option id= "decline" value="Declined">Declined</option>
+                <option id= "reject" value="Rejected">Rejected</option>
+                <option id= "fix" value="Fixed">Fixed</option>
+                <option id= "shelve" value="Shelved">Shelved</option> </td>
+                <td><button class = "buttonclass" onclick="submitDefect(${hogwarts.defectId})">Submitus Finito</button> </td>
                 `
 
                     tbody.appendChild(tblrow)

@@ -18,7 +18,7 @@ public class LoginSteps {
     @Given("The employee is on the login page")
     public void the_employee_is_on_the_login_page() {
         // when telling selenium to get a local file you have to add File:// to the start of the url
-        TestRunner.driver.get("File://C:/Users/Mike/Desktop/Revature Training/Week4/Automation-Project/bugcatcher-automation/src/test/resources/webpages/Login.html");
+        TestRunner.driver.get("File://C:/Users/Mike/Desktop/Revature Training/Week4/Automation-Project/Foundations-Project/bugcatcher-automation/src/test/resources/webpages/Login.html");
     
     }
 
